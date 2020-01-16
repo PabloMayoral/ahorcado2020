@@ -17,16 +17,44 @@ public class NewJFrame extends javax.swing.JFrame {
 
     // esta variable guarda los fallos que llevo en el juego
     int numeroFallos = 0;
+
+    String palabraOculta = "CETYS";
     //este metodo recibe el boton que ha sido pulsado y lo procesa
 
     private void chequeaBoton(JButton boton) {
         boton.setEnabled(false);
+        chequeLetra(boton.getText());
+    }
+
+    private void chequeLetra(String letra) {
+        String palabraConGuiones = jLabel1.getText();
+        if (palabraOculta.contains(letra)) {
+//en este caso la letra si que esta y hay que: 1º que la o las letras
+//se descubran en la palabra con guiones
+            char letraPulsada = letra.charAt(0);
+            for (int i = 0; i < palabraOculta.length(); i++) {
+                if (palabraOculta.charAt(i) == letraPulsada) {
+                    palabraConGuiones = palabraConGuiones.substring(0,2*i)+letra+palabraConGuiones.substring(2*i+1);
+                }
+            }
+            jLabel1.setText(palabraConGuiones);
+            if(!palabraConGuiones.contains("_")){
+                numeroFallos = -1;
+            dibujaImagen();
+            }
+        } else {
+            numeroFallos++;
+            dibujaImagen();
+        }
+        
     }
 
     private void dibujaImagen() {
 //cambia la imagen en funcion al numero de fallos que lleves
         String nombreImagen = "";
         switch (numeroFallos) {
+            case -1:  nombreImagen = "/imagenes/acertasteTodo.png";
+                break;
             case 0:
                 nombreImagen = "/imagenes/ahorcado_0.png";
                 break;
@@ -45,17 +73,18 @@ public class NewJFrame extends javax.swing.JFrame {
             case 5:
                 nombreImagen = "/imagenes/ahorcado_5.png";
                 break;
-            default : nombreImagen = "/imagenes/ahorcado_fin.png";break;
+            default:
+                nombreImagen = "/imagenes/ahorcado_fin.png";
+                break;
         }
         ImageIcon miImagen = new ImageIcon(
-      
-        new ImageIcon(getClass().getResource(nombreImagen))
-                .getImage()
-                .getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_DEFAULT)
+                new ImageIcon(getClass().getResource(nombreImagen))
+                        .getImage()
+                        .getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_DEFAULT)
         );
         //cargo la imagen en el jlabel 
         jLabel2.setIcon(miImagen);
-        
+
     }
 
     /**
