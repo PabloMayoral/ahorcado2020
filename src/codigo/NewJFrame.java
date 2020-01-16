@@ -5,6 +5,8 @@
  */
 package codigo;
 
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 /**
@@ -18,7 +20,7 @@ public class NewJFrame extends javax.swing.JFrame {
     //este metodo recibe el boton que ha sido pulsado y lo procesa
 
     private void chequeaBoton(JButton boton) {
-        System.out.println("boton pulsado");
+        boton.setEnabled(false);
     }
 
     private void dibujaImagen() {
@@ -43,8 +45,17 @@ public class NewJFrame extends javax.swing.JFrame {
             case 5:
                 nombreImagen = "/imagenes/ahorcado_5.png";
                 break;
-
+            default : nombreImagen = "/imagenes/ahorcado_fin.png";break;
         }
+        ImageIcon miImagen = new ImageIcon(
+      
+        new ImageIcon(getClass().getResource(nombreImagen))
+                .getImage()
+                .getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_DEFAULT)
+        );
+        //cargo la imagen en el jlabel 
+        jLabel2.setIcon(miImagen);
+        
     }
 
     /**
@@ -52,6 +63,7 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     public NewJFrame() {
         initComponents();
+        dibujaImagen();
     }
 
     /**
