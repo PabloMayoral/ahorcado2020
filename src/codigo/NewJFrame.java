@@ -6,6 +6,7 @@
 package codigo;
 
 import java.awt.Image;
+import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -18,7 +19,7 @@ public class NewJFrame extends javax.swing.JFrame {
     // esta variable guarda los fallos que llevo en el juego
     int numeroFallos = 0;
 
-    String palabraOculta = "CETYS";
+    String   palabraOculta = eligePalabra();
     //este metodo recibe el boton que ha sido pulsado y lo procesa
 
     private void chequeaBoton(JButton boton) {
@@ -93,8 +94,22 @@ public class NewJFrame extends javax.swing.JFrame {
     public NewJFrame() {
         initComponents();
         dibujaImagen();
+        //inicializo el jLabel en el que muestran los guiones bajos
+        String auxiliar = "";
+        for (int i=0;i<palabraOculta.length();i++){
+        auxiliar= auxiliar+"_ ";
+        }
+     jLabel1.setText(auxiliar);
     }
+    //elige una palabra al azar de un array de palabras
+private String eligePalabra(){
+String [] listaPalabras = {"HOLA","VLADIKAKA","BORREGUITO","BABYYODA"};
+    Random aleatorio = new Random();
+//variable aleatoria para elegir una palabra al azar
+int posicion = aleatorio.nextInt(listaPalabras.length);
+return listaPalabras[posicion].toUpperCase();
 
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
