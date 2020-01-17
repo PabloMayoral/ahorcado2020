@@ -18,13 +18,16 @@ public class NewJFrame extends javax.swing.JFrame {
 
     // esta variable guarda los fallos que llevo en el juego
     int numeroFallos = 0;
-
-    String   palabraOculta = eligePalabra();
+    boolean partidaTerminada = false;//indica si la partida ha terminado 
+    String palabraOculta = eligePalabra();
     //este metodo recibe el boton que ha sido pulsado y lo procesa
 
     private void chequeaBoton(JButton boton) {
-        boton.setEnabled(false);
-        chequeLetra(boton.getText());
+        if (!partidaTerminada) {
+            boton.setEnabled(false);
+            chequeLetra(boton.getText());
+        }
+
     }
 
     private void chequeLetra(String letra) {
@@ -35,26 +38,32 @@ public class NewJFrame extends javax.swing.JFrame {
             char letraPulsada = letra.charAt(0);
             for (int i = 0; i < palabraOculta.length(); i++) {
                 if (palabraOculta.charAt(i) == letraPulsada) {
-                    palabraConGuiones = palabraConGuiones.substring(0,2*i)+letra+palabraConGuiones.substring(2*i+1);
+                    palabraConGuiones = palabraConGuiones.substring(0, 2 * i) + letra + palabraConGuiones.substring(2 * i + 1);
                 }
             }
             jLabel1.setText(palabraConGuiones);
-            if(!palabraConGuiones.contains("_")){
+            if (!palabraConGuiones.contains("_")) {
                 numeroFallos = -1;
-            dibujaImagen();
+                dibujaImagen();
+                partidaTerminada = true;
             }
         } else {
             numeroFallos++;
+            if (numeroFallos == 6) {
+                partidaTerminada = true;
+            }
+
             dibujaImagen();
         }
-        
+
     }
 
     private void dibujaImagen() {
 //cambia la imagen en funcion al numero de fallos que lleves
         String nombreImagen = "";
         switch (numeroFallos) {
-            case -1:  nombreImagen = "/imagenes/acertasteTodo.png";
+            case -1:
+                nombreImagen = "/imagenes/acertasteTodo.png";
                 break;
             case 0:
                 nombreImagen = "/imagenes/ahorcado_0.png";
@@ -96,20 +105,22 @@ public class NewJFrame extends javax.swing.JFrame {
         dibujaImagen();
         //inicializo el jLabel en el que muestran los guiones bajos
         String auxiliar = "";
-        for (int i=0;i<palabraOculta.length();i++){
-        auxiliar= auxiliar+"_ ";
+        for (int i = 0; i < palabraOculta.length(); i++) {
+            auxiliar = auxiliar + "_ ";
         }
-     jLabel1.setText(auxiliar);
+        jLabel1.setText(auxiliar);
     }
     //elige una palabra al azar de un array de palabras
-private String eligePalabra(){
-String [] listaPalabras = {"HOLA","VLADIKAKA","BORREGUITO","BABYYODA"};
-    Random aleatorio = new Random();
-//variable aleatoria para elegir una palabra al azar
-int posicion = aleatorio.nextInt(listaPalabras.length);
-return listaPalabras[posicion].toUpperCase();
 
-}
+    private String eligePalabra() {
+        String[] listaPalabras = {"HOLA", "VLADIKAKA", "BORREGUITO", "BABYYODA"};
+        Random aleatorio = new Random();
+//variable aleatoria para elegir una palabra al azar
+        int posicion = aleatorio.nextInt(listaPalabras.length);
+        return listaPalabras[posicion].toUpperCase();
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
